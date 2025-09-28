@@ -1,0 +1,35 @@
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Application properties with sensitive data
+application-local.properties
+application-dev.properties
+application-prod.properties
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build files
+target/
+build/
+out/
+
+# Temporary files
+*.tmp
+*.temp
