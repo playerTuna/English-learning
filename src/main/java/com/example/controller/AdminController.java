@@ -19,7 +19,7 @@ import com.example.entity.User;
 import com.example.service.UserService;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admin/users")
 @PreAuthorize("hasRole('admin')")
 public class AdminController {
 
@@ -47,6 +47,14 @@ public class AdminController {
             @RequestParam(required = false) String reason) {
 
         userService.banUser(id, banUntil, reason);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/unban")
+    public ResponseEntity<?> unbanUser(
+            @PathVariable UUID id
+    ) {
+        userService.unbanUser(id);
         return ResponseEntity.ok().build();
     }
 }
