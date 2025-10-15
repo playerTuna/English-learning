@@ -41,13 +41,31 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void banUser(UUID id, OffsetDateTime banUtil, String reason) {
+    public void banUser(UUID id, OffsetDateTime banUntil, String reason) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+        if (banUntil == null) {
+            banUntil = OffsetDateTime.now().plusYears(100);
+        }
         user.setBanStatus(true);
-        user.setBanUtil(banUtil);
+        user.setBanUtil(banUntil);
         user.setReason(reason);
         userRepository.save(user);
     }
+
+    public void unbanUser(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+
+        if (!user.getBanStatus()) {
+            throw new RuntimeException("User is not banned before");
+        }
+
+        user.setBanStatus(false);
+        user.setBanUtil(null);
+        user.setReason(null);
+        userRepository.save(user);
+    }
+
 
     @Transactional
     public UserDTO createUser(UserDTO userDTO) {

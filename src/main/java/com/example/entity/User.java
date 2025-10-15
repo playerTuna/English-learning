@@ -82,7 +82,7 @@ public class User {
     }
 
     public String getPasswordHash() {
-        return passwordHash;
+        return this.passwordHash;
     }
 
     public void setPasswordHash(String passwordHash) {
@@ -90,31 +90,31 @@ public class User {
     }
 
     public UserRole getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(UserRole role) {
         this.role = role;
     }
 
-    public Boolean getBanStatus(Boolean banStatus) {
-        return banStatus;
+    public Boolean getBanStatus() {
+        return this.banStatus;
     }
 
     public void setBanStatus(Boolean banStatus) {
         this.banStatus = banStatus;
     }
 
-    public OffsetDateTime getBanUtil(OffsetDateTime banUtil) {
-        return banUtil;
+    public OffsetDateTime getBanUtil() {
+        return this.banUtil;
     }
 
     public void setBanUtil(OffsetDateTime banUtil) {
         this.banUtil = banUtil;
     }
 
-    public String getReason(String reason) {
-        return reason;
+    public String getReason() {
+        return this.reason;
     }
 
     public void setReason(String reason) {
@@ -130,7 +130,7 @@ public class User {
     }
 
     public OffsetDateTime getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public void setCreatedAt(OffsetDateTime createdAt) {
@@ -138,7 +138,7 @@ public class User {
     }
 
     public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
+        return this.updatedAt;
     }
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {

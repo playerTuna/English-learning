@@ -10,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,10 +43,10 @@ public class AdminController {
     @PutMapping("/{id}/ban")
     public ResponseEntity<?> banUser(
             @PathVariable UUID id,
-            @RequestBody BanRequest request
-    ) {
-        userService.banUser(id, request.getBanUntil(), request.getReason());
+            @RequestParam(required = false) OffsetDateTime banUntil,
+            @RequestParam(required = false) String reason) {
+
+        userService.banUser(id, banUntil, reason);
         return ResponseEntity.ok().build();
     }
-
 }
