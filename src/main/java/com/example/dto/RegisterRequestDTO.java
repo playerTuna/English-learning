@@ -3,7 +3,8 @@ package com.example.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class LoginRequestDTO {
+public class RegisterRequestDTO {
+    
     @NotBlank(message = "Username cannot be blank")
     @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
     private String username;
@@ -12,13 +13,18 @@ public class LoginRequestDTO {
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
     
+    @NotBlank(message = "Name cannot be blank")
+    @Size(max = 100, message = "Name must not exceed 100 characters")
+    private String name;
+    
     // Constructors
-    public LoginRequestDTO() {
+    public RegisterRequestDTO() {
     }
     
-    public LoginRequestDTO(String username, String password) {
+    public RegisterRequestDTO(String username, String password, String name) {
         this.username = username;
         this.password = password;
+        this.name = name;
     }
     
     // Getters and Setters
@@ -37,4 +43,13 @@ public class LoginRequestDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
 }
+

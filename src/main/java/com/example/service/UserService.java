@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,6 +33,20 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
         return convertToDTO(user);
+    }
+
+    public void changeRole(UUID id, User.UserRole newRole) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+        user.setRole(newRole);
+        userRepository.save(user);
+    }
+
+    public void banUser(UUID id, OffsetDateTime banUtil, String reason) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+        user.setBanStatus(true);
+        user.setBanUtil(banUtil);
+        user.setReason(reason);
+        userRepository.save(user);
     }
 
     @Transactional

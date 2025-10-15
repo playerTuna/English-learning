@@ -1,8 +1,18 @@
 package com.example.entity;
 
-import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -26,6 +36,15 @@ public class User {
     @Column(name = "name")
     private String name;
     
+    @Column(name = "banStatus")
+    private Boolean banStatus;
+
+    @Column(name = "banUtil")
+    private OffsetDateTime banUtil;
+
+    @Column(name = "reason")
+    private String reason;
+
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
     
@@ -76,6 +95,30 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Boolean getBanStatus(Boolean banStatus) {
+        return banStatus;
+    }
+
+    public void setBanStatus(Boolean banStatus) {
+        this.banStatus = banStatus;
+    }
+
+    public OffsetDateTime getBanUtil(OffsetDateTime banUtil) {
+        return banUtil;
+    }
+
+    public void setBanUtil(OffsetDateTime banUtil) {
+        this.banUtil = banUtil;
+    }
+
+    public String getReason(String reason) {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public String getName() {
