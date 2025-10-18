@@ -29,21 +29,16 @@ public interface TestRepository extends JpaRepository<Test, UUID> {
     
     Page<Test> findByTestType(TestType testType, Pageable pageable);
     
-    // Tìm kiếm bài test theo topic và loại test
     List<Test> findByTopicTopicIdAndTestType(UUID topicId, TestType testType);
     
     Page<Test> findByTopicTopicIdAndTestType(UUID topicId, TestType testType, Pageable pageable);
     
-    // Tìm bài test theo số câu hỏi
     List<Test> findByNumQuestionsGreaterThanEqual(Integer minQuestions);
     
-    // Đếm số lượng bài test theo topic
     Long countByTopicTopicId(UUID topicId);
     
-    // Tìm các bài test mới nhất
     @Query("SELECT t FROM Test t ORDER BY t.createdAt DESC")
     List<Test> findRecentTests(Pageable pageable);
     
-    // Xóa bài test theo topicId
     void deleteByTopicTopicId(UUID topicId);
 }
