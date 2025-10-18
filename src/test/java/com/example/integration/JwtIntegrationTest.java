@@ -3,6 +3,7 @@ package com.example.integration;
 import java.time.OffsetDateTime;
 import java.util.Date;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -233,4 +234,57 @@ class JwtIntegrationTest {
         assertNull(unbanned.getBanUtil());
     }
 
+    @Test
+    void swapAdminRole() throws Exception {
+        User admin = new User();
+        admin.setUsername("Tuna");
+        admin.setPasswordHash(passwordEncoder.encode("I@mnem0610"));
+        admin.setRole(UserRole.admin);
+        admin.setName("Võ Tiến Nam");
+        userRepository.save(admin);
+
+        User admin2 = new User();
+        admin2.setUsername("Eri");
+        admin2.setPasswordHash(passwordEncoder.encode("I@mnem0610"));
+        admin2.setRole(UserRole.user);
+        admin2.setName("Nam Vo Tien");
+        userRepository.save(admin2);
+
+        String loginBody1 = "{\"username\":\"Tuna\",\"password\":\"I@mnem0610\"}";
+        String loginResponse1 = mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginBody1))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String token1 = objectMapper.readTree(loginResponse1).path("data").path("token").asText();
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/admin/users/" + admin2.getUserId() + "/role")
+                .param("role", "admin")
+                .header("Authorization", "Bearer " + token1))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        String loginBody2 = "{\"username\":\"Eri\",\"password\":\"I@mnem0610\"}";
+        String loginResponse2 = mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginBody2))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String token2 = objectMapper.readTree(loginResponse2).path("data").path("token").asText();
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/admin/users/" + admin.getUserId() + "/role")
+                .param("role", "user")
+                .header("Authorization", "Bearer " + token2))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        User checkRole1 = userRepository.findById(admin.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        User checkRole2 = userRepository.findById(admin2.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        System.out.println("Tuna role: " + checkRole1.getRole());
+        System.out.println("Eri role: " + checkRole2.getRole());
+
+        Assertions.assertEquals(UserRole.user, checkRole1.getRole());
+        Assertions.assertEquals(UserRole.admin, checkRole2.getRole());
+    }
 }
