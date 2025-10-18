@@ -139,7 +139,7 @@ public class UserService {
     // Helper method to convert Entity to DTO
     private UserDTO convertToDTO(User user) {
         return new UserDTO(
-                user.getUserId().toString(),
+                user.getUserId(),
                 user.getUsername(),
                 user.getName(),
                 user.getRole());

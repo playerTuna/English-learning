@@ -1,5 +1,7 @@
 package com.example.dto;
 
+import java.util.UUID;
+
 import com.example.entity.User.UserRole;
 
 import jakarta.validation.constraints.NotBlank;
@@ -7,7 +9,7 @@ import jakarta.validation.constraints.Size;
 
 public class UserDTO {
     
-    private String userId;
+    private UUID userId;
     
     @NotBlank(message = "Username must not be null")
     @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
@@ -25,7 +27,7 @@ public class UserDTO {
     public UserDTO() {
     }
     
-    public UserDTO(String userId, String username, String name, UserRole role) {
+    public UserDTO(UUID userId, String username, String name, UserRole role) {
         this.userId = userId;
         this.username = username;
         this.name = name;
@@ -33,11 +35,11 @@ public class UserDTO {
     }
     
     // Getters and Setters
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
     
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
     
